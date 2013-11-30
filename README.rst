@@ -7,6 +7,7 @@ This service provide an acces to your Pocket account
 Requirements :
 ==============
 * django_th: 0.8.0
+* pocket : 0.2.4
 
 
 Installation:
