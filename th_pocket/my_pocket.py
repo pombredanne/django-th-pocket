@@ -11,6 +11,7 @@ from django.utils.log import getLogger
 
 # pocket API
 import pocket
+from pocket import Pocket
 
 
 logger = getLogger('django_th.trigger_happy')
@@ -50,15 +51,15 @@ class ServicePocket(ServicesMgr):
         auth_url = Pocket.get_auth_url(
             code=request_token, redirect_uri=callbackUrl)
 
-        print "j'affiche auth_url %s" % auth_url
+        access_token = Pocket.get_access_token(
+            consumer_key=settings.TH_POCKET['consummer_key'], code=request_token)
+
         return auth_url
 
     def callback(self, request):
         """
             Called from the Service when the user accept to activate it
         """
-        access_token = Pocket.get_access_token(
-            consumer_key=settings.TH_POCKET['consummer_key'], code=request_token)
 
         try:
             # finally we save the user auth token
