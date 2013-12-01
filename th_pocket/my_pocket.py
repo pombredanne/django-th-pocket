@@ -19,23 +19,28 @@ logger = getLogger('django_th.trigger_happy')
 
 class ServicePocket(ServicesMgr):
 
-    def save_data(self, access_token, title, url, trigger_id, extra=''):
+    def save_data(self, token, trigger_id, **data):
+        """
+            let's save the data
+        """
+        from th_pocket.models import Pocket
 
-        if access_token and len(url) > 0 and len(title):
+        if token and len(data['link']) > 0 and len(data['title']):
             # get the pocket data of this trigger
             trigger = Pocket.objects.get(trigger_id=trigger_id)
 
             pocket_instance = pocket.Pocket(
-                settings.TH_POCKET['consummer_key'], access_token)
+                settings.TH_POCKET['consummer_key'], token)
 
-            pocket_instance.add(
-                url=url, title=title, tags=(trigger.tag.lower()))
+            item_id = pocket_instance.add(
+                url=data['link'], title=data['title'], tags=(trigger.tag.lower()))
 
+            sentance = str('pocket {} created').format(data['link'])
             logger.debug(sentance)
 
         else:
             logger.critical(
-                "no token provided for trigger ID %s and title %s", trigger_id, title)
+                "no token provided for trigger ID %s and title %s", trigger_id, data['title'])
 
     def auth(self, request):
         """
