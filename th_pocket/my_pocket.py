@@ -47,12 +47,12 @@ class ServicePocket(ServicesMgr):
         request_token = Pocket.get_request_token(
             consumer_key=settings.TH_POCKET['consummer_key'], redirect_uri=callbackUrl)
 
+        # Save the request token information for later
+        request.session['request_token'] = request_token
+
         # URL to redirect user to, to authorize your app
         auth_url = Pocket.get_auth_url(
             code=request_token, redirect_uri=callbackUrl)
-
-        access_token = Pocket.get_access_token(
-            consumer_key=settings.TH_POCKET['consummer_key'], code=request_token)
 
         return auth_url
 
@@ -71,6 +71,10 @@ class ServicePocket(ServicesMgr):
                 user=request.user,
                 name=ServicesActivated.objects.get(name='ServicePocket'))
             # 2) then get the token
+            access_token = Pocket.get_access_token(
+                consumer_key=settings.TH_POCKET['consummer_key'],
+                code=request.session['request_token'])
+
             us.token = access_token
             # 3) and save everything
             us.save()
