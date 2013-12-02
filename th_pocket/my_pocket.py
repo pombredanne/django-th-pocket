@@ -17,6 +17,17 @@ from pocket import Pocket
 logger = getLogger('django_th.trigger_happy')
 
 
+"""
+    handle process with pocket
+    put the following in settings.py
+
+    TH_POCKET = {
+        'consummer_key': 'abcdefghijklmnopqrstuvwxyz',
+    }
+
+"""
+
+
 class ServicePocket(ServicesMgr):
 
     def save_data(self, token, trigger_id, **data):
