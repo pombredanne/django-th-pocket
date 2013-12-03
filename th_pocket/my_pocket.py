@@ -13,6 +13,8 @@ from django.utils.log import getLogger
 import pocket
 from pocket import Pocket
 
+import datetime
+import time
 
 logger = getLogger('django_th.trigger_happy')
 
@@ -30,28 +32,67 @@ logger = getLogger('django_th.trigger_happy')
 
 class ServicePocket(ServicesMgr):
 
+    def process_data(self, **kwargs):
+        """
+            get the data from the service
+        """
+        data = {}
+        trigger_id = 0
+        if 'trigger_id' in kwargs:
+            trigger_id = kwargs['trigger_id']
+
+        date_triggered = ''
+        if 'date_triggered' in kwargs:
+            date_triggered = kwargs['date_triggered']
+        else:
+            logger.critical(
+                "no date triggered provided for trigger ID %s ", trigger_id)
+
+        token = ''
+        if 'token' in kwargs:
+            token = kwargs['token']
+        else:
+            logger.critical(
+                "no token provided for trigger ID %s ", trigger_id)
+
+        if token and date_triggered:
+            # get the timestamp version of the date time data
+            # in data_triggered
+            date_triggered = time.mktime(
+                datetime.datetime.timetuple(date_triggered))
+
+            pocket_instance = pocket.Pocket(
+                settings.TH_POCKET['consummer_key'], token)
+            # get the data from the last time the trigger have been started
+            data = pocket_instance.get(since=date_triggered)
+
+        return data
+
     def save_data(self, token, trigger_id, **data):
         """
             let's save the data
         """
         from th_pocket.models import Pocket
 
-        if token and len(data['link']) > 0 and len(data['title']):
+        if token and len(data['link']) > 0:
             # get the pocket data of this trigger
             trigger = Pocket.objects.get(trigger_id=trigger_id)
 
             pocket_instance = pocket.Pocket(
                 settings.TH_POCKET['consummer_key'], token)
 
+            title = ''
+            title = data['title'] if 'title' in data
+
             item_id = pocket_instance.add(
-                url=data['link'], title=data['title'], tags=(trigger.tag.lower()))
+                url=data['link'], title=title, tags=(trigger.tag.lower()))
 
             sentance = str('pocket {} created').format(data['link'])
             logger.debug(sentance)
 
         else:
             logger.critical(
-                "no token provided for trigger ID %s and title %s", trigger_id, data['title'])
+                "no token provided for trigger ID %s and link %s", trigger_id, data['link'])
 
     def auth(self, request):
         """
