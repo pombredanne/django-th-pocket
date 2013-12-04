@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 # django_th classes
 from django_th.services.services import ServicesMgr
-from django_th.models import UserService
-from django_th.models import ServicesActivated
-
+from django_th.models import UserService, ServicesActivated, TriggerService
 # django classes
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -16,9 +14,6 @@ from pocket import Pocket
 import datetime
 import time
 
-logger = getLogger('django_th.trigger_happy')
-
-
 """
     handle process with pocket
     put the following in settings.py
@@ -29,40 +24,28 @@ logger = getLogger('django_th.trigger_happy')
 
 """
 
+logger = getLogger('django_th.trigger_happy')
+
 
 class ServicePocket(ServicesMgr):
 
-    def process_data(self, **kwargs):
+    def process_data(self, trigger_id):
         """
             get the data from the service
         """
+        trigger = TriggerService.objects.get(id=trigger_id)
+
         data = {}
-        trigger_id = 0
-        if 'trigger_id' in kwargs:
-            trigger_id = kwargs['trigger_id']
 
-        date_triggered = ''
-        if 'date_triggered' in kwargs:
-            date_triggered = kwargs['date_triggered']
-        else:
-            logger.critical(
-                "no date triggered provided for trigger ID %s ", trigger_id)
-
-        token = ''
-        if 'token' in kwargs:
-            token = kwargs['token']
-        else:
-            logger.critical(
-                "no token provided for trigger ID %s ", trigger_id)
-
-        if token and date_triggered:
+        if trigger.provider.token is not None:
             # get the timestamp version of the date time data
             # in data_triggered
             date_triggered = time.mktime(
                 datetime.datetime.timetuple(date_triggered))
 
             pocket_instance = pocket.Pocket(
-                settings.TH_POCKET['consummer_key'], token)
+                settings.TH_POCKET['consummer_key'], trigger.provider.token)
+
             # get the data from the last time the trigger have been started
             data = pocket_instance.get(since=date_triggered)
 
@@ -82,7 +65,7 @@ class ServicePocket(ServicesMgr):
                 settings.TH_POCKET['consummer_key'], token)
 
             title = ''
-            title = data['title'] if 'title' in data
+            title = (data['title'] if 'title' in data else '')
 
             item_id = pocket_instance.add(
                 url=data['link'], title=title, tags=(trigger.tag.lower()))
