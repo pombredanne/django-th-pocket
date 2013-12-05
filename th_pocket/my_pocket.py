@@ -13,7 +13,7 @@ from pocket import Pocket
 
 import datetime
 import time
-
+import json
 """
     handle process with pocket
     put the following in settings.py
@@ -29,27 +29,32 @@ logger = getLogger('django_th.trigger_happy')
 
 class ServicePocket(ServicesMgr):
 
-    def process_data(self, trigger_id):
+    def process_data(self, token, trigger_id, date_triggered):
         """
             get the data from the service
         """
-        trigger = TriggerService.objects.get(id=trigger_id)
+        datas = list()
 
-        data = {}
+        date_triggered = int(time.mktime(datetime.datetime.timetuple(date_triggered)))
 
-        if trigger.provider.token is not None:
-            # get the timestamp version of the date time data
-            # in data_triggered
-            date_triggered = time.mktime(
-                datetime.datetime.timetuple(date_triggered))
+        if token is not None:
 
-            pocket_instance = pocket.Pocket(
-                settings.TH_POCKET['consummer_key'], trigger.provider.token)
+            pocket_instance = pocket.Pocket(settings.TH_POCKET['consummer_key'], token)
 
             # get the data from the last time the trigger have been started
-            data = pocket_instance.get(since=date_triggered)
+            # timestamp form
+            pockets = pocket_instance.get(since=date_triggered)
 
-        return data
+            if len(pockets[0]['list']) > 0:
+                for pocket in pockets[0]['list'].values():
+
+                    datas.append({'tag': '',
+                        'link': pocket['resolved_url'],
+                        'title': pocket['resolved_title'],
+                        'tweet_id': 0,
+                        'trigger': trigger})
+
+        return datas
 
     def save_data(self, token, trigger_id, **data):
         """
