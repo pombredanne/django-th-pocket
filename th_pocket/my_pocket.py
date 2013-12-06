@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 # django_th classes
 from django_th.services.services import ServicesMgr
 from django_th.models import UserService, ServicesActivated, TriggerService
@@ -34,12 +35,14 @@ class ServicePocket(ServicesMgr):
             get the data from the service
         """
         datas = list()
-
-        date_triggered = int(time.mktime(datetime.datetime.timetuple(date_triggered)))
+        # pocket uses a timestamp date format
+        date_triggered = int(
+            time.mktime(datetime.datetime.timetuple(date_triggered)))
 
         if token is not None:
 
-            pocket_instance = pocket.Pocket(settings.TH_POCKET['consummer_key'], token)
+            pocket_instance = pocket.Pocket(
+                settings.TH_POCKET['consummer_key'], token)
 
             # get the data from the last time the trigger have been started
             # timestamp form
@@ -49,10 +52,10 @@ class ServicePocket(ServicesMgr):
                 for pocket in pockets[0]['list'].values():
 
                     datas.append({'tag': '',
-                        'link': pocket['resolved_url'],
-                        'title': pocket['resolved_title'],
-                        'tweet_id': 0,
-                        'trigger': trigger})
+                                  'link': pocket['resolved_url'],
+                                  'title': pocket['resolved_title'],
+                                  'tweet_id': 0,
+                                  'trigger': trigger})
 
         return datas
 
