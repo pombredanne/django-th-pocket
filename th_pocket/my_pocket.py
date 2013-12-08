@@ -2,7 +2,7 @@
 
 # django_th classes
 from django_th.services.services import ServicesMgr
-from django_th.models import UserService, ServicesActivated, TriggerService
+from django_th.models import UserService, ServicesActivated
 # django classes
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -14,7 +14,6 @@ from pocket import Pocket
 
 import datetime
 import time
-import json
 """
     handle process with pocket
     put the following in settings.py
@@ -54,8 +53,7 @@ class ServicePocket(ServicesMgr):
                     datas.append({'tag': '',
                                   'link': pocket['resolved_url'],
                                   'title': pocket['resolved_title'],
-                                  'tweet_id': 0,
-                                  'trigger': trigger})
+                                  'tweet_id': 0})
 
         return datas
 
@@ -83,7 +81,8 @@ class ServicePocket(ServicesMgr):
 
         else:
             logger.critical(
-                "no token provided for trigger ID %s and link %s", trigger_id, data['link'])
+                "no token provided for trigger ID %s and link %s", trigger_id,
+                data['link'])
 
     def auth(self, request):
         """
@@ -93,7 +92,8 @@ class ServicePocket(ServicesMgr):
             request.get_host(), reverse('pocket_callback'))
 
         request_token = Pocket.get_request_token(
-            consumer_key=settings.TH_POCKET['consummer_key'], redirect_uri=callbackUrl)
+            consumer_key=settings.TH_POCKET['consummer_key'],
+            redirect_uri=callbackUrl)
 
         # Save the request token information for later
         request.session['request_token'] = request_token
