@@ -38,6 +38,8 @@ class ServicePocket(ServicesMgr):
         date_triggered = int(
             time.mktime(datetime.datetime.timetuple(date_triggered)))
 
+        pocket_instance = ''
+
         if token is not None:
 
             pocket_instance = pocket.Pocket(
@@ -63,7 +65,9 @@ class ServicePocket(ServicesMgr):
         """
         from th_pocket.models import Pocket
 
-        if token and len(data['link']) > 0:
+        pocket_instance = ''
+
+        if token and 'link' in data and data['link'] is not None and len(data['link']) > 0:
             # get the pocket data of this trigger
             trigger = Pocket.objects.get(trigger_id=trigger_id)
 
@@ -78,11 +82,8 @@ class ServicePocket(ServicesMgr):
 
             sentance = str('pocket {} created').format(data['link'])
             logger.debug(sentance)
-
         else:
-            logger.critical(
-                "no token provided for trigger ID %s and link %s", trigger_id,
-                data['link'])
+            logger.critical("no token provided for trigger ID %s ", trigger_id)
 
     def auth(self, request):
         """
