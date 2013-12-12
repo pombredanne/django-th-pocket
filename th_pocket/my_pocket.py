@@ -46,16 +46,17 @@ class ServicePocket(ServicesMgr):
             # get the data from the last time the trigger have been started
             # timestamp form
             pockets = pocket_instance.get(since=date_triggered)
-
+            
             if len(pockets[0]['list']) > 0:
                 for pocket in pockets[0]['list'].values():
-
+                    excerpt = (pocket['excerpt'] if 'excerpt' in pocket else '')
                     datas.append({'tag': '',
                                   'link': pocket['resolved_url'],
                                   'title': pocket['resolved_title'],
+                                  'content': excerpt,
                                   'tweet_id': 0})
-
         return datas
+
 
     def save_data(self, token, trigger_id, **data):
         """
