@@ -2,11 +2,11 @@
 Django Trigger Happy : Pocket Service
 =====================================
 
-This service provide an acces to your Pocket account
+This service provides an acces to your Pocket account from Trigger Happy
 
 Requirements :
 ==============
-* django_th: 0.8.0
+* django_th: 0.8.1
 * pocket : 0.2.4
 
 
@@ -49,7 +49,7 @@ add the module th_rss to INSTALLED_APPS
 TH_SERVICES 
 ~~~~~~~~~~~
 
-TH_SERVICES is a list of the services we put in django_th/services directory
+TH_SERVICES is a list of the services use by Trigger Happy
 
 .. code:: python
 
