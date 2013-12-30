@@ -16,7 +16,8 @@ install_requires = reqs('requirements.txt')
 setup(
     name='django_th_pocket',
     version=version,
-    description='Django Trigger Happy : This handles the Pocket service',
+    description='Django Trigger Happy : Service Pocket to read and add data\
+ in your pockect account from and to the service of your choice',
     author='Olivier Demah',
     author_email='olivier@foxmask.info',
     url='https://github.com/foxmask/django-th-pocket',

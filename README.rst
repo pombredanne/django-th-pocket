@@ -6,7 +6,7 @@ This service provides an acces to your Pocket account from Trigger Happy
 
 Requirements :
 ==============
-* django_th: 0.8.1
+* django_th: 0.8.2
 * pocket : 0.2.4
 
 
