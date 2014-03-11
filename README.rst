@@ -2,11 +2,11 @@
 Django Trigger Happy : Pocket Service
 =====================================
 
-This service provides an acces to your Pocket account from Trigger Happy
+This service provides an access to your Pocket account from Trigger Happy
 
 Requirements :
 ==============
-* django_th: 0.8.1
+* django_th: 0.8.3
 * pocket : 0.2.4
 
 
@@ -59,7 +59,7 @@ TH_SERVICES is a list of the services use by Trigger Happy
 
 TH_POCKET
 ~~~~~~~~~~~
-TH_POCKET is the settings you will need to be able to add/read data in/from Evernote.
+TH_POCKET is the settings you will need to be able to add/read data in/from Pocket.
 
 .. code:: python
 

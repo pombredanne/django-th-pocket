@@ -19,7 +19,7 @@ import time
     put the following in settings.py
 
     TH_POCKET = {
-        'consummer_key': 'abcdefghijklmnopqrstuvwxyz',
+        'consumer_key': 'abcdefghijklmnopqrstuvwxyz',
     }
 
 """
@@ -43,7 +43,7 @@ class ServicePocket(ServicesMgr):
         if token is not None:
 
             pocket_instance = pocket.Pocket(
-                settings.TH_POCKET['consummer_key'], token)
+                settings.TH_POCKET['consumer_key'], token)
 
             # get the data from the last time the trigger have been started
             # timestamp form
@@ -72,7 +72,7 @@ class ServicePocket(ServicesMgr):
             trigger = Pocket.objects.get(trigger_id=trigger_id)
 
             pocket_instance = pocket.Pocket(
-                settings.TH_POCKET['consummer_key'], token)
+                settings.TH_POCKET['consumer_key'], token)
 
             title = ''
             title = (data['title'] if 'title' in data else '')
@@ -93,7 +93,7 @@ class ServicePocket(ServicesMgr):
             request.get_host(), reverse('pocket_callback'))
 
         request_token = Pocket.get_request_token(
-            consumer_key=settings.TH_POCKET['consummer_key'],
+            consumer_key=settings.TH_POCKET['consumer_key'],
             redirect_uri=callbackUrl)
 
         # Save the request token information for later
@@ -121,7 +121,7 @@ class ServicePocket(ServicesMgr):
                 name=ServicesActivated.objects.get(name='ServicePocket'))
             # 2) then get the token
             access_token = Pocket.get_access_token(
-                consumer_key=settings.TH_POCKET['consummer_key'],
+                consumer_key=settings.TH_POCKET['consumer_key'],
                 code=request.session['request_token'])
 
             us.token = access_token
