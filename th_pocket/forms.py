@@ -19,5 +19,5 @@ class PocketProviderForm(PocketForm):
     pass
 
 
-class PocketConsumerForm(PocketForm):
+class PocketConsummerForm(PocketForm):
     pass

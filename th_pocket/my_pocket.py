@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
-
-# django_th classes
-from django_th.services.services import ServicesMgr
-from django_th.models import UserService, ServicesActivated
-# django classes
-from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.utils.log import getLogger
+import datetime
+import time
 
 # pocket API
 import pocket
 from pocket import Pocket
 
-import datetime
-import time
+# django classes
+from django.conf import settings
+from django.core.urlresolvers import reverse
+from django.utils.log import getLogger
+
+# django_th classes
+from django_th.services.services import ServicesMgr
+from django_th.models import UserService, ServicesActivated
+
 """
     handle process with pocket
     put the following in settings.py
@@ -21,6 +22,12 @@ import time
     TH_POCKET = {
         'consumer_key': 'abcdefghijklmnopqrstuvwxyz',
     }
+
+    TH_SERVICES = (
+        ...
+        'th_pocket.my_pocket.ServicePocket',
+        ...
+    )
 
 """
 
@@ -63,25 +70,28 @@ class ServicePocket(ServicesMgr):
         """
             let's save the data
         """
-        from th_pocket.models import Pocket
+        from th_pocket.models import Pocket as PocketModel
 
         pocket_instance = ''
 
         if token and 'link' in data and data['link'] is not None and len(data['link']) > 0:
             # get the pocket data of this trigger
-            trigger = Pocket.objects.get(trigger_id=trigger_id)
+            trigger = PocketModel.objects.get(trigger_id=trigger_id)
 
             pocket_instance = pocket.Pocket(
                 settings.TH_POCKET['consumer_key'], token)
 
             title = ''
             title = (data['title'] if 'title' in data else '')
+            try:
+                pocket_instance.add(
+                    url=data['link'], title=title, tags=(trigger.tag.lower()))
 
-            item_id = pocket_instance.add(
-                url=data['link'], title=title, tags=(trigger.tag.lower()))
+                sentence = str('pocket {} created').format(data['link'])
+                logger.debug(sentence)
+            except Exception, e:
+                logger.critical(e)
 
-            sentance = str('pocket {} created').format(data['link'])
-            logger.debug(sentance)
         else:
             logger.critical("no token provided for trigger ID %s ", trigger_id)
 
@@ -115,7 +125,7 @@ class ServicePocket(ServicesMgr):
             # As we already stored the object ServicesActivated
             # from the UserServiceCreateView now we update the same
             # object to the database so :
-            # 1) we get the previous objet
+            # 1) we get the previous object
             us = UserService.objects.get(
                 user=request.user,
                 name=ServicesActivated.objects.get(name='ServicePocket'))
