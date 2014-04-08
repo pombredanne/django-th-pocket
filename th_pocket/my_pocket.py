@@ -89,7 +89,7 @@ class ServicePocket(ServicesMgr):
 
                 sentence = str('pocket {} created').format(data['link'])
                 logger.debug(sentence)
-            except Exception, e:
+            except Exception as e:
                 logger.critical(e)
 
         else:
