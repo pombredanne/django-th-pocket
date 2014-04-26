@@ -1,6 +1,6 @@
-=====================================
-Django Trigger Happy : Pocket Service
-=====================================
+================
+Pocket Connector
+================
 
 This service provides an access to your Pocket account from Trigger Happy
 
@@ -18,7 +18,7 @@ to get the project, from your virtualenv, do :
 
     pip install django-th-pocket
     
-then
+then do
 
 .. code:: python
 
@@ -46,10 +46,11 @@ add the module th_rss to INSTALLED_APPS
         'th_pocket',
     )    
 
+
 TH_SERVICES 
 ~~~~~~~~~~~
 
-TH_SERVICES is a list of the services use by Trigger Happy
+TH_SERVICES is a list of the services used by Trigger Happy
 
 .. code:: python
 

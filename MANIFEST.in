@@ -2,3 +2,5 @@ exclude th_pocket/local_settings.py
 include *.txt *.rst
 recursive-include th_pocket *.html
 recursive-include th_pocket/templates *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
