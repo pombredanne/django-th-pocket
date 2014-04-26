@@ -2,7 +2,7 @@
 Pocket Connector
 ================
 
-This service provides an access to your Pocket account from Trigger Happy
+From Trigger Happy, this connector provides an access to your Pocket account
 
 Requirements :
 ==============
