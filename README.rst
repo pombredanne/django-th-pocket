@@ -6,8 +6,8 @@ From Trigger Happy, this connector provides an access to your Pocket account
 
 Requirements :
 ==============
-* django_th: 0.8.3
-* pocket : 0.2.4
+* django_th: 0.9.0
+* pocket : 0.3.2
 
 
 Installation:
