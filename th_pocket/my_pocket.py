@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import datetime
 import time
+import arrow
 
-# pocket API
+# pocket API
 import pocket
 from pocket import Pocket
 
@@ -39,31 +40,36 @@ class ServicePocket(ServicesMgr):
     def process_data(self, token, trigger_id, date_triggered):
         """
             get the data from the service
+            as the pocket service does not have any date
+            in its API linked to the note,
+            add the triggered date to the dict data
+            thus the service will be triggered when data will be found
         """
         datas = list()
         # pocket uses a timestamp date format
-        date_triggered = int(
+        since = int(
             time.mktime(datetime.datetime.timetuple(date_triggered)))
 
         pocket_instance = ''
 
         if token is not None:
 
-            pocket_instance = pocket.Pocket(
+            pocket_instance = Pocket(
                 settings.TH_POCKET['consumer_key'], token)
 
             # get the data from the last time the trigger have been started
             # timestamp form
-            pockets = pocket_instance.get(since=date_triggered)
+            pockets = pocket_instance.get(since=since, state="unread")
 
-            if len(pockets[0]['list']) > 0:
+            if pockets is not None and len(pockets[0]['list']) > 0:
                 for pocket in pockets[0]['list'].values():
-
-                    datas.append({'tag': '',
-                                  'link': pocket['resolved_url'],
-                                  'title': pocket['resolved_title'],
+                    content = (pocket['excerpt'] if pocket['excerpt'] else pocket['given_title'])
+                    datas.append({'my_date': str(arrow.get(str(date_triggered), 'YYYY-MM-DD HH:mm:ss').to(settings.TIME_ZONE)),
+                                  'tag': '',
+                                  'link': pocket['given_url'],
+                                  'title': pocket['given_title'],
+                                  'content': content,
                                   'tweet_id': 0})
-
         return datas
 
     def save_data(self, token, trigger_id, **data):
