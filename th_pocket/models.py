@@ -14,3 +14,9 @@ class Pocket(Services):
 
     class Meta:
         app_label = 'django_th'
+
+    def __unicode__(self):
+        return "%s" % (self.title)
+
+    def show(self):
+        return "My Pocket %s" % (self.title)

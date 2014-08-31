@@ -95,8 +95,10 @@ class ServicePocket(ServicesMgr):
 
                 sentence = str('pocket {} created').format(data['link'])
                 logger.debug(sentence)
+                return True
             except Exception as e:
                 logger.critical(e)
+                return False
 
         else:
             logger.critical("no token provided for trigger ID %s ", trigger_id)
