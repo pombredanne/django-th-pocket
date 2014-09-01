@@ -22,13 +22,13 @@ class PocketTest(TestCase):
                               description="My first Service", status=True):
         user = self.user
         service_provider = ServicesActivated.objects.create(
-            name='ServicePocket', status=True,
-            auth_required=False, description='Service Pocket')
+            name='ServiceRss', status=True,
+            auth_required=False, description='Service RSS')
         service_consumer = ServicesActivated.objects.create(
-            name='ServiceEvernote', status=True,
-            auth_required=True, description='Service Evernote')
+            name='ServicePocket', status=True,
+            auth_required=True, description='Service Pocket')
         provider = UserService.objects.create(user=user,
-                                              token="AZERTY1234",
+                                              token="",
                                               name=service_provider)
         consumer = UserService.objects.create(user=user,
                                               token="AZERTY1234",
@@ -54,19 +54,9 @@ class PocketTest(TestCase):
     def test_pocket(self):
         p = self.create_pocket()
         self.assertTrue(isinstance(p, Pocket))
-        self.assertEqual(p.show(), "My Pocket %s" % (p.title))
+        self.assertEqual(p.show(), "My Pocket %s" % (p.url))
 
     """
         Form
     """
-    def test_valid_provider_form(self):
-        p = self.create_pocket()
-        data = {'tag': p.tag}
-        form = PocketProviderForm(data=data)
-        self.assertTrue(form.is_valid())
-
-    def test_valid_consumer_form(self):
-        p = self.create_pocket()
-        data = {'tag': p.tag}
-        form = PocketConsumerForm(data=data)
-        self.assertTrue(form.is_valid())
+    # no need to test if the tag is filled or not as it's not mandatory

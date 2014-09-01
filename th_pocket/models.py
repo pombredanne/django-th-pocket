@@ -16,7 +16,7 @@ class Pocket(Services):
         app_label = 'django_th'
 
     def __unicode__(self):
-        return "%s" % (self.title)
+        return "%s" % (self.url)
 
     def show(self):
-        return "My Pocket %s" % (self.title)
+        return "My Pocket %s" % (self.url)
