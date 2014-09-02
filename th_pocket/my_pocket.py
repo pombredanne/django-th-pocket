@@ -80,7 +80,8 @@ class ServicePocket(ServicesMgr):
 
         pocket_instance = ''
 
-        if token and 'link' in data and data['link'] is not None and len(data['link']) > 0:
+        if token and 'link' in data and \
+           data['link'] is not None and len(data['link']) > 0:
             # get the pocket data of this trigger
             trigger = PocketModel.objects.get(trigger_id=trigger_id)
 
