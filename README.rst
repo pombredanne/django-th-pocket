@@ -6,7 +6,7 @@ From Trigger Happy, this connector provides an access to your Pocket account
 
 Requirements :
 ==============
-* django_th: 0.9.0
+* django_th >= 0.9.0
 * pocket : 0.3.5
 
 
@@ -58,8 +58,9 @@ TH_SERVICES is a list of the services used by Trigger Happy
         'th_pocket.my_pocket.ServicePocket',
     )
 
+
 TH_POCKET
-~~~~~~~~~~~
+~~~~~~~~~
 TH_POCKET is the settings you will need to be able to add/read data in/from Pocket.
 
 .. code:: python
@@ -67,6 +68,7 @@ TH_POCKET is the settings you will need to be able to add/read data in/from Pock
     TH_POCKET = {
         'consumer_key': 'abcdefghijklmnopqrstuvwxyz',
     }
+
 
 Setting up : Administration
 ===========================

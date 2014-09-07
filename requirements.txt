@@ -1,2 +1,2 @@
-django_th==0.9.0
+django_th>=0.9.0
 pocket==0.3.5
