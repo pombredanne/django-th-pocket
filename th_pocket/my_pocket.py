@@ -79,9 +79,9 @@ class ServicePocket(ServicesMgr):
         from th_pocket.models import Pocket as PocketModel
 
         pocket_instance = ''
+        status = False
 
-        if token and 'link' in data and \
-           data['link'] is not None and len(data['link']) > 0:
+        if token and 'link' in data and data['link'] is not None and len(data['link']) > 0:
             # get the pocket data of this trigger
             trigger = PocketModel.objects.get(trigger_id=trigger_id)
 
@@ -96,13 +96,15 @@ class ServicePocket(ServicesMgr):
 
                 sentence = str('pocket {} created').format(data['link'])
                 logger.debug(sentence)
-                return True
+                status = True
             except Exception as e:
                 logger.critical(e)
-                return False
+                status = False
 
         else:
-            logger.critical("no token provided for trigger ID %s ", trigger_id)
+            logger.critical("no token provided for trigger ID %s ", trigger_id)            
+        return status
+
 
     def auth(self, request):
         """
