@@ -44,8 +44,14 @@ class ServicePocket(ServicesMgr):
             in its API linked to the note,
             add the triggered date to the dict data
             thus the service will be triggered when data will be found
+            :param trigger_id: trigger ID to process
+            :param date_triggered: the date of the last trigger
+            :type trigger_id: int
+            :type date_triggered: datetime
+            :return: list of data found from the date_triggered filter
+            :rtype: list
         """
-        datas = list()
+        data = list()
         # pocket uses a timestamp date format
         since = int(
             time.mktime(datetime.datetime.timetuple(date_triggered)))
@@ -64,17 +70,24 @@ class ServicePocket(ServicesMgr):
             if pockets is not None and len(pockets[0]['list']) > 0:
                 for pocket in pockets[0]['list'].values():
                     content = (pocket['excerpt'] if pocket['excerpt'] else pocket['given_title'])
-                    datas.append({'my_date': str(arrow.get(str(date_triggered), 'YYYY-MM-DD HH:mm:ss').to(settings.TIME_ZONE)),
+                    data.append({'my_date': str(arrow.get(str(date_triggered), 'YYYY-MM-DD HH:mm:ss').to(settings.TIME_ZONE)),
                                   'tag': '',
                                   'link': pocket['given_url'],
                                   'title': pocket['given_title'],
                                   'content': content,
                                   'tweet_id': 0})
-        return datas
+        return data
 
     def save_data(self, token, trigger_id, **data):
         """
             let's save the data
+
+            :param trigger_id: trigger ID from which to save data
+            :param **data: the data to check to be used and save
+            :type trigger_id: int
+            :type **data:  dict
+            :return: the status of the save statement
+            :rtype: boolean
         """
         from th_pocket.models import Pocket as PocketModel
 
