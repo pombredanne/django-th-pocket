@@ -2,7 +2,7 @@
 Pocket Connector
 ================
 
-From Trigger Happy, this connector provides an access to your Pocket account
+From Trigger Happy, this connector provides an access to your Pocket account to add/get notes
 
 Requirements :
 ==============
