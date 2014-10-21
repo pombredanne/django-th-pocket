@@ -6,7 +6,7 @@ From Trigger Happy, this connector provides an access to your Pocket account to 
 
 Requirements :
 ==============
-* `django_th <https://github.com/foxmask/django-th>`_ == 0.9.0
+* `django_th <https://github.com/foxmask/django-th>`_ >= 0.9.1
 * `pocket <https://pypi.python.org/pypi/pocket>`_  == 0.3.5
 
 
