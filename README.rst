@@ -65,7 +65,7 @@ TH_POCKET is the settings you will need to be able to add/read data in/from Pock
 
 To be able to use Pocket :
 
-* you will need to grad the pocket consumer key `by creating a new application at <http://getpocket.com/developer/apps/>`_ with the rights access as below
+* you will need to grad the pocket consumer key `by creating a new application <http://getpocket.com/developer/apps/>`_ with the rights access as below
 
 .. image:: http://foxmask.info/public/trigger_happy/pocket_account_settings.png 
 
