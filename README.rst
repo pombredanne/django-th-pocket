@@ -63,6 +63,14 @@ TH_POCKET
 ~~~~~~~~~
 TH_POCKET is the settings you will need to be able to add/read data in/from Pocket.
 
+To be able to use Pocket :
+
+* you will need to `grad the pocket by creating a new application at <http://getpocket.com/developer/apps/>`_ with the rights access as below
+
+.. image:: http://foxmask.info/public/trigger_happy/pocket_account_settings.png 
+
+* then copy the "consumer key" of your application to the settings.py
+
 .. code:: python
 
     TH_POCKET = {
@@ -73,7 +81,7 @@ TH_POCKET is the settings you will need to be able to add/read data in/from Pock
 Setting up : Administration
 ===========================
 
-once the module is installed, go to the admin panel and activate the service Pocket. 
+Once the module is installed, go to the admin panel and activate the service Pocket. 
 
 All you can decide here is to tell if the service requires an external authentication or not.
 
