@@ -83,6 +83,10 @@ Setting up : Administration
 
 Once the module is installed, go to the admin panel and activate the service Pocket. 
 
-All you can decide here is to tell if the service requires an external authentication or not.
+.. image:: http://foxmask.info/public/trigger_happy/th_admin_pocket_activated.png
 
-Once they are activated. User can use them.
+Once they are activated....
+
+.. image:: http://foxmask.info/public/trigger_happy/admin_service_list.png
+
+... User can use them
