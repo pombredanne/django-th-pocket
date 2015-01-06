@@ -14,6 +14,7 @@ class Pocket(Services):
 
     class Meta:
         app_label = 'django_th'
+        db_table = 'django_th_pocket'
 
     def __unicode__(self):
         return "%s" % (self.url)
